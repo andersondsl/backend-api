@@ -1,7 +1,23 @@
 version: '2'
 services:
-  mydb:
+  products-api:
+    build: .
+    command: npm start
+    volumes:
+      - .:/usr/app/
+      - /usr/app/node_modules
+    ports:
+      - "3000:3000"
+    depends_on:
+      - database
+    environment:
+      DATABASE_URL: postgres://admin@postgres/products
+
+  database:
     image: postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_DB: products
     volumes:
       - $HOME/docker/volumes/postgres:/var/lib/postgresql/data
     ports:
